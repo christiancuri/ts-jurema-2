@@ -1,6 +1,8 @@
 import { IBGE } from "@utils";
 import { IStatesIBGE, IPopulation, IPopulationIBGE } from "./interfaces";
 
+import { server } from "@wildcard-api/server";
+
 async function getAllStates(uf: string = ""): Promise<IStatesIBGE[]> {
   return IBGE.get(`/api/v1/localidades/estados/${uf}`).then(({ data }) =>
     Array.isArray(data) ? data : [data],
@@ -19,3 +21,7 @@ export async function getPopulationByUF(uf: string): Promise<IPopulation> {
     populacao: (await getPopulation(ibgeState.id)).projecao.populacao,
   };
 }
+
+server.getPopulationByUF = async function (uf) {
+  return getPopulationByUF(uf);
+};

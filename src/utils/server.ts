@@ -8,6 +8,8 @@ import http from "http";
 
 import logger from "./logger";
 
+import { wildcard } from "@wildcard-api/server/express";
+
 const app = express();
 const httpServer = http.createServer(app);
 
@@ -33,6 +35,7 @@ app
       skip: (req) => req.method === "OPTIONS",
     }),
   )
+  .use(wildcard())
   .set("trust proxy", true);
 
 const port = process.env.PORT || 3000;
